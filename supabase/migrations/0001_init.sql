@@ -78,6 +78,17 @@ create table if not exists cars (
   updated_at timestamptz not null default now()
 );
 
+-- 8-b. 범용 카드(스크랩/노트): 투자·집·여행·차 공용 (3단계)
+--      board 로 어느 카드 소속인지 구분, tag 로 하위 분류.
+create table if not exists cards (
+  id uuid primary key default gen_random_uuid(),
+  board text not null,           -- investment / housing / travel / car
+  tag text,                      -- 카테고리/브랜드/종류
+  title text not null,
+  body text,
+  updated_at timestamptz not null default now()
+);
+
 -- 9. n8n 데일리 피드: 매일 덮어쓰기 (F-07)
 create table if not exists daily_feed (
   id uuid primary key default gen_random_uuid(),
