@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
  * 최상단 네비게이션 바 (PRD 5절).
  * [타이틀] ----------- [📈 투자 정보 보기] 미니 탭 + 로그아웃.
  */
-export default function Gnb({ onOpenInvestment }) {
+export default function Gnb({ onOpenInvestment, onOpenArchive }) {
   const { logout } = useAuth()
 
   return (
@@ -13,6 +13,12 @@ export default function Gnb({ onOpenInvestment }) {
       <h1 className="text-sub font-bold text-soft">나만의 대시보드</h1>
 
       <div className="flex items-center gap-2">
+        <button
+          onClick={onOpenArchive}
+          className="btn bg-base text-base text-soft hover:bg-slate-700"
+        >
+          📌 보관함
+        </button>
         <button
           onClick={onOpenInvestment}
           className="btn bg-base text-base text-soft hover:bg-slate-700"

@@ -5,6 +5,7 @@ import AssetCard from './features/asset/AssetCard.jsx'
 import AgentCard from './features/agent/AgentCard.jsx'
 import FutureCard from './features/future/FutureCard.jsx'
 import CollectionCard from './features/collection/CollectionCard.jsx'
+import ArchiveModal from './features/archive/ArchiveModal.jsx'
 import { isSupabaseReady } from './lib/supabase.js'
 
 /**
@@ -13,10 +14,15 @@ import { isSupabaseReady } from './lib/supabase.js'
  */
 function Dashboard() {
   const [investmentOpen, setInvestmentOpen] = useState(false)
+  const [archiveOpen, setArchiveOpen] = useState(false)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <Gnb onOpenInvestment={() => setInvestmentOpen((v) => !v)} />
+      <Gnb
+        onOpenInvestment={() => setInvestmentOpen((v) => !v)}
+        onOpenArchive={() => setArchiveOpen(true)}
+      />
+      <ArchiveModal open={archiveOpen} onClose={() => setArchiveOpen(false)} />
 
       {!isSupabaseReady && (
         <div className="mb-6 rounded-xl border border-house/40 bg-house/10 px-4 py-3 text-base text-house">
@@ -51,6 +57,7 @@ function Dashboard() {
           icon="🏠"
           tags={['현재주거', '단독주택', '홈스타일링']}
           emptyHint="유보라 더 크레스트 정보 · 단독주택 스크랩 · 인테리어 위시리스트"
+          feedSource="housing"
         />
 
         <CollectionCard
@@ -71,6 +78,7 @@ function Dashboard() {
           icon="🚗"
           tags={['이달의 차', '포르쉐', '현대', '기아', 'BMW', '기타']}
           emptyHint="최신 전기차(EV) 정보 · 브랜드별 보조금 큐레이션"
+          feedSource="car"
         />
       </main>
     </div>

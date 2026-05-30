@@ -4,13 +4,15 @@ import Modal from '../../components/Modal.jsx'
 import { ACCENT } from '../../lib/accent.js'
 import { useCollection } from './useCollection.js'
 import CollectionEditor from './CollectionEditor.jsx'
+import DailyFeedBanner from '../feed/DailyFeedBanner.jsx'
 
 /**
  * 범용 컬렉션 카드 (투자·집·여행·차 공용, 3단계).
  * 카드 면에는 최근 항목 미리보기 + 개수를 보여주고,
  * [추가 · 편집] 으로 전체 CRUD 모달을 연다.
+ * feedSource 가 주어지면 상단에 데일리 피드 배너(F-07)를 노출한다.
  */
-export default function CollectionCard({ board, accent, title, icon, tags, emptyHint }) {
+export default function CollectionCard({ board, accent, title, icon, tags, emptyHint, feedSource }) {
   const data = useCollection(board)
   const { items, loading, error, backend } = data
   const [open, setOpen] = useState(false)
@@ -20,6 +22,8 @@ export default function CollectionCard({ board, accent, title, icon, tags, empty
     <>
       <DashboardCard accent={accent} title={title} icon={icon}>
         {error && <p className="text-base text-red-400">에러: {error}</p>}
+
+        {feedSource && <DailyFeedBanner source={feedSource} accent={accent} />}
 
         {loading ? (
           <p className="text-base text-muted">…</p>
