@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthGate from './components/AuthGate.jsx'
 import Gnb from './components/Gnb.jsx'
+import DetailPage from './components/DetailPage.jsx'
 import AssetCard from './features/asset/AssetCard.jsx'
 import AgentCard from './features/agent/AgentCard.jsx'
 import FutureCard from './features/future/FutureCard.jsx'
@@ -17,7 +18,7 @@ function Dashboard() {
   const [archiveOpen, setArchiveOpen] = useState(false)
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="mx-auto max-w-[1600px] px-5 py-6">
       <Gnb
         onOpenInvestment={() => setInvestmentOpen((v) => !v)}
         onOpenArchive={() => setArchiveOpen(true)}
@@ -45,7 +46,7 @@ function Dashboard() {
         </div>
       )}
 
-      <main className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+      <main className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3">
         <AssetCard />
 
         <AgentCard />
@@ -86,9 +87,27 @@ function Dashboard() {
 }
 
 export default function App() {
+  const [page, setPage] = useState(() => window.location.hash.replace('#/', ''))
+
+  useEffect(() => {
+    const onHashChange = () => setPage(window.location.hash.replace('#/', ''))
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
   return (
     <AuthGate>
-      <Dashboard />
+      {page ? (
+        <DetailPage
+          page={page}
+          onBack={() => {
+            window.location.hash = ''
+            setPage('')
+          }}
+        />
+      ) : (
+        <Dashboard />
+      )}
     </AuthGate>
   )
 }
