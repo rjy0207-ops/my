@@ -2,6 +2,7 @@ import { useState } from 'react'
 import AuthGate from './components/AuthGate.jsx'
 import Gnb from './components/Gnb.jsx'
 import DashboardCard from './components/DashboardCard.jsx'
+import AssetCard from './features/asset/AssetCard.jsx'
 import { isSupabaseReady } from './lib/supabase.js'
 
 /**
@@ -34,9 +35,7 @@ function Dashboard() {
       )}
 
       <main className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <DashboardCard accent="asset" title="자산" icon="💰">
-          <p className="text-muted">총자산 / 총부채 / 순자산 트래킹</p>
-        </DashboardCard>
+        <AssetCard />
 
         <DashboardCard accent="agent" title="AI Agent 스터디" icon="🤖">
           <p className="text-muted">강의 진척도 · 프롬프트 샌드박스</p>
