@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import AuthGate from './components/AuthGate.jsx'
 import Gnb from './components/Gnb.jsx'
-import DashboardCard from './components/DashboardCard.jsx'
 import AssetCard from './features/asset/AssetCard.jsx'
+import AgentCard from './features/agent/AgentCard.jsx'
 import FutureCard from './features/future/FutureCard.jsx'
 import CollectionCard from './features/collection/CollectionCard.jsx'
 import { isSupabaseReady } from './lib/supabase.js'
@@ -42,9 +42,7 @@ function Dashboard() {
       <main className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
         <AssetCard />
 
-        <DashboardCard accent="agent" title="AI Agent 스터디" icon="🤖">
-          <p className="text-muted">강의 진척도 · 프롬프트 샌드박스 (다음 단계 예정)</p>
-        </DashboardCard>
+        <AgentCard />
 
         <CollectionCard
           board="housing"

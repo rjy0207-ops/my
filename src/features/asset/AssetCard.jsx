@@ -4,6 +4,8 @@ import Modal from '../../components/Modal.jsx'
 import { krw, krwShort } from '../../lib/format.js'
 import { useAssets } from './useAssets.js'
 import AssetDetail from './AssetDetail.jsx'
+import { useAiCall } from '../ai/useAiCall.js'
+import AiResult from '../ai/AiResult.jsx'
 
 /**
  * 자산 카드 (PRD F-01).
@@ -12,8 +14,15 @@ import AssetDetail from './AssetDetail.jsx'
  */
 export default function AssetCard() {
   const data = useAssets()
-  const { summary, loading, error, backend } = data
+  const { summary, assets, cashflow, loading, error, backend } = data
   const [open, setOpen] = useState(false)
+  const [reviewOpen, setReviewOpen] = useState(false)
+  const ai = useAiCall()
+
+  function openReview() {
+    setReviewOpen(true)
+    ai.run('finance-review', { summary, assets, cashflow })
+  }
 
   return (
     <>
@@ -53,21 +62,40 @@ export default function AssetCard() {
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
           <span className="text-base text-muted">
             {backend === 'supabase' ? '☁️ 클라우드' : '💾 로컬'}
           </span>
-          <button
-            onClick={() => setOpen(true)}
-            className="btn bg-asset/20 text-asset hover:bg-asset/30"
-          >
-            상세 · 편집
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={openReview}
+              className="btn bg-base text-soft hover:bg-slate-700"
+            >
+              AI 재무 리뷰 🤖
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="btn bg-asset/20 text-asset hover:bg-asset/30"
+            >
+              상세 · 편집
+            </button>
+          </div>
         </div>
       </DashboardCard>
 
       <Modal open={open} onClose={() => setOpen(false)} title="자산 상세 · 편집">
         <AssetDetail data={data} />
+      </Modal>
+
+      <Modal
+        open={reviewOpen}
+        onClose={() => {
+          setReviewOpen(false)
+          ai.reset()
+        }}
+        title="AI 재무 리뷰 🤖"
+      >
+        <AiResult loading={ai.loading} error={ai.error} result={ai.result} />
       </Modal>
     </>
   )
