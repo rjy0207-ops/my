@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-ssr/
+
+# env (민감 정보 — PRD 제약사항 1: 절대 커밋 금지)
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / os
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# vercel
+.vercel
