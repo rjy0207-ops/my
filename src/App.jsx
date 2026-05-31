@@ -16,12 +16,37 @@ import { isSupabaseReady } from './lib/supabase.js'
 function Dashboard() {
   const [investmentOpen, setInvestmentOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
+  const [savedAt, setSavedAt] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('dashboard:manual-save') ?? '{}').savedAt ?? ''
+    } catch {
+      return ''
+    }
+  })
+
+  function handleManualSave() {
+    const nextSavedAt = new Intl.DateTimeFormat('ko-KR', {
+      dateStyle: 'short',
+      timeStyle: 'medium',
+    }).format(new Date())
+
+    localStorage.setItem(
+      'dashboard:manual-save',
+      JSON.stringify({
+        savedAt: nextSavedAt,
+        savedAtIso: new Date().toISOString(),
+      }),
+    )
+    setSavedAt(nextSavedAt)
+  }
 
   return (
     <div className="mx-auto max-w-[1600px] px-5 py-6">
       <Gnb
         onOpenInvestment={() => setInvestmentOpen((v) => !v)}
         onOpenArchive={() => setArchiveOpen(true)}
+        onManualSave={handleManualSave}
+        savedAt={savedAt}
       />
       <ArchiveModal open={archiveOpen} onClose={() => setArchiveOpen(false)} />
 

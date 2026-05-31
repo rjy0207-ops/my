@@ -1,3 +1,5 @@
+import FinanceDetail from '../features/asset/FinanceDetail.jsx'
+
 const PHOTOS = {
   house:
     'https://images.pexels.com/photos/7722158/pexels-photo-7722158.jpeg?auto=compress&cs=tinysrgb&w=1400',
@@ -43,31 +45,7 @@ function PageShell({ title, subtitle, children }) {
   )
 }
 
-function FinanceDetail() {
-  return (
-    <PageShell title="나의 자산 상세" subtitle="자산 구성, 부채 비율, 거래 내역을 한 페이지에서 관리합니다.">
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Panel title="자산 건강판">
-          {[
-            ['주거/부동산', 58, 'bg-emerald-400'],
-            ['주식/ETF', 24, 'bg-sky-400'],
-            ['현금성', 12, 'bg-amber-300'],
-            ['기타', 6, 'bg-violet-400'],
-          ].map(([label, value, color]) => (
-            <Bar key={label} label={label} value={value} color={color} />
-          ))}
-        </Panel>
-        <Panel title="거래 내역 추가">
-          <div className="grid gap-3">
-            <input className="rounded-xl bg-base px-4 py-3" placeholder="거래 메모" />
-            <input className="rounded-xl bg-base px-4 py-3" placeholder="금액" type="number" />
-            <button className="btn bg-asset/20 text-asset hover:bg-asset/30">추가</button>
-          </div>
-        </Panel>
-      </div>
-    </PageShell>
-  )
-}
+// FinanceDetail은 features/asset/FinanceDetail.jsx 에서 import
 
 function AgentDetail() {
   return (

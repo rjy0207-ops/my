@@ -26,3 +26,8 @@ Thumbs.db
 
 # claude local settings
 .claude/settings.local.json
+
+# local recovery/checkpoint files
+backups/
+asset_source.xlsx
+*.recovery-backup
